@@ -1,0 +1,19 @@
+.html-render {
+  height: 100%;
+  width: 100%;
+  background-color: white;
+  user-select: none;
+  -webkit-user-drag: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  img {
+    user-select: none;
+    -webkit-user-drag: none;
+  }
+}
+
+.canvas-root {
+  position: relative;
+}
