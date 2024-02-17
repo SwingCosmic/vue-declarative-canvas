@@ -43,7 +43,7 @@ export default defineComponent<Props<Record<string, any>>>(
       };
     });
     
-    const el: Ref<HTMLElement> = useCurrentElement();
+    const el: Ref<HTMLElement> = useCurrentElement() as any;
     const fonts = computed(() => props.template.resources?.fonts || []);
     useCssFontLoader(el, fonts);
 

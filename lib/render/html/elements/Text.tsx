@@ -1,10 +1,9 @@
-import ElementRender from "../ElementRender";
 import { ElementProps } from "../ElementProps";
-import { Text } from "../../../meta/element";
+import { Text as TextElement } from "../../../meta/element";
 import { CSSProperties, StyleValue } from "vue";
 import { getNumberWithUnit } from "../util";
 
-export function Text(props: ElementProps<Text>) {
+export function Text(props: ElementProps<TextElement>) {
   const e = props.element;
   const style: StyleValue = {
     color: e.fill as any,

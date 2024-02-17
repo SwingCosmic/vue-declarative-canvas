@@ -1,9 +1,10 @@
 import ElementRender from "../ElementRender";
 import { ElementProps } from "../ElementProps";
-import { Group } from "../../../meta/element";
+// vue-tsc bug 'Duplicate declaration "Group"'
+import { Group as GroupElement } from "../../../meta/element";
 import { CSSProperties } from "vue";
 
-export function Group(props: ElementProps<Group>) {
+export function Group(props: ElementProps<GroupElement>) {
   const e = props.element;
   const style: CSSProperties = {};
   style["position"] = "relative";

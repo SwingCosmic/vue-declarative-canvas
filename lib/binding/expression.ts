@@ -24,7 +24,7 @@ export function ExpressionBuilderPlugin(): PluginObj {
         if (es.type != "ExpressionStatement") {
           throw new Error("语句不是表达式");
         }
-        const expr = es.expression;
+        let expr = es.expression;
         if (expr.type == "AssignmentExpression") {
           throw new Error("表达式不能包含赋值语句");
         } 
@@ -33,24 +33,24 @@ export function ExpressionBuilderPlugin(): PluginObj {
           if (expr.params.length > 0) {
             throw new Error("函数表达式不能包含参数");
           }
-          path.node.body = [
-            t.expressionStatement(
-              t.callExpression(
-                expr,
-                []
-              )
-            )
-          ];  
-        } else {
-          path.node.body = [
-            t.expressionStatement(
-              t.arrowFunctionExpression(
-                [],
-                expr
-              )
-            )
-          ];         
-        }
+          
+          expr = t.callExpression(
+            expr,
+            []
+          );
+        } 
+        path.node.body = [
+          t.expressionStatement(
+            t.assignmentExpression(
+              "=",
+              t.memberExpression(
+                t.identifier("exports"),
+                t.identifier("default")
+              ),
+              expr
+            )              
+          )
+        ];         
       },
       Identifier(path, state: any) {
         const parent: any = path.parent;
@@ -135,5 +135,10 @@ export function createExpression<T>(
     throw new Error("表达式编译失败：" + error.message);
   }
 
-  return ((__ctx__: Dictionary<any>) => eval(_code))(ctx);
+  const _exports = { default: undefined! as T };
+  const f = new Function("__ctx__", "exports", _code);
+  return () => {
+    f(ctx, _exports);
+    return _exports.default;
+  };
 }

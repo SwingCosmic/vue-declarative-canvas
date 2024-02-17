@@ -1,10 +1,9 @@
-import ElementRender from "../ElementRender";
 import { ElementProps } from "../ElementProps";
-import { Sprite } from "../../../meta/element";
+import { Sprite as SpriteElement } from "../../../meta/element";
 import { CSSProperties, StyleValue } from "vue";
 import { getNumberWithUnit } from "../util";
 
-export function Sprite(props: ElementProps<Sprite>) {
+export function Sprite(props: ElementProps<SpriteElement>) {
   const e = props.element;
   const style: CSSProperties = {
     "object-fit": e.fit,

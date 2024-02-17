@@ -1,10 +1,9 @@
-import ElementRender from "../ElementRender";
 import { ElementProps } from "../ElementProps";
-import { Graphics } from "../../../meta/element";
+import { Graphics as GraphicsElement } from "../../../meta/element";
 import { SVGAttributes  } from "vue";
 import { getNumberWithUnit } from "../util";
 
-export function Graphics(props: ElementProps<Graphics>) {
+export function Graphics(props: ElementProps<GraphicsElement>) {
   const e = props.element;
   const attrs: SVGAttributes = {
     
