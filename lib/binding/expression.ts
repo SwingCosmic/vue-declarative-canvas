@@ -5,6 +5,29 @@ import type { NodePath, PluginObj } from "@babel/core";
 import { Dictionary } from "@lovekicher/iterable-chain";
 
 const CONTEXT_VARIABLE = "__ctx__";
+const blacklist = [
+  "window",
+  "self",
+  "top",
+  "parent",
+  "globalThis",
+  "global",
+  "document"
+];
+
+function declareGlobalVariables(names: string[]): t.Statement[] {
+  return [
+    t.variableDeclaration(
+      "let",
+      names.map(name => 
+        t.variableDeclarator(
+          t.identifier(name),
+          t.identifier("undefined")
+        )  
+      )
+    )
+  ];
+}
 
 export function ExpressionBuilderPlugin(): PluginObj {
   return {
@@ -40,6 +63,7 @@ export function ExpressionBuilderPlugin(): PluginObj {
           );
         } 
         path.node.body = [
+          ...declareGlobalVariables(blacklist),
           t.expressionStatement(
             t.assignmentExpression(
               "=",
@@ -138,7 +162,7 @@ export function createExpression<T>(
   const _exports = { default: undefined! as T };
   const f = new Function("__ctx__", "exports", _code);
   return () => {
-    f(ctx, _exports);
+    f.call(undefined, ctx, _exports);
     return _exports.default;
   };
 }
