@@ -1,7 +1,7 @@
 import { ElementProps } from "../ElementProps";
 import { Text as TextElement } from "../../../meta/element";
 import { CSSProperties, StyleValue } from "vue";
-import { getNumberWithUnit } from "../util";
+import { getNumberWithUnit } from "@lib/math/NumberWithUnit";
 
 export function Text(props: ElementProps<TextElement>) {
   const e = props.element;

@@ -1,26 +1,13 @@
 import { StyleValue } from "vue";
 import { DrawableElement } from "../../meta/element";
-
-export function getNumberWithUnit(value?: string | number): string | undefined {
-  if (typeof value === "number") {
-    return value + "px";
-  } 
-  if (!value) {
-    return undefined;
-  }
-  const m = /^(\d+)$/.exec(value);
-  if (m) {
-    return m[1] + "px";
-  }
-  return value;
-}
-
+import { getNumberWithUnit } from "@lib/math/NumberWithUnit";
+import { transform } from "@lib/math/transform";
+import { Vector2 } from "@lib/math";
 
 export function getTransform(e: DrawableElement) {
-  let transform = "";
+  let transformCss = "";
   if (e.transform) {
-    const matrixTransform = new CSSMatrixComponent(DOMMatrix.fromMatrix(e.transform));
-    transform = new CSSTransformValue([matrixTransform]).toString();
+    transformCss = transform(e.transform).toString();
   }
   let origin = e.origin;
   if (Array.isArray(origin)) {
@@ -30,8 +17,8 @@ export function getTransform(e: DrawableElement) {
   const attrs: StyleValue = {
     left: getNumberWithUnit(e.x),
     top: getNumberWithUnit(e.y),
-    transform,
-    transformOrigin: origin,
+    transform: transformCss,
+    transformOrigin: typeof origin === "object" ? Vector2.fromJSON(origin).toString() : origin,
   };
 
   let mode = e.layoutMode;

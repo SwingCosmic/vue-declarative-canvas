@@ -1,7 +1,7 @@
 import { ElementProps } from "../ElementProps";
 import { Graphics as GraphicsElement } from "../../../meta/element";
 import { SVGAttributes  } from "vue";
-import { getNumberWithUnit } from "../util";
+import { getNumberWithUnit } from "@lib/math/NumberWithUnit";
 
 export function Graphics(props: ElementProps<GraphicsElement>) {
   const e = props.element;

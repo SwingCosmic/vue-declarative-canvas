@@ -93,8 +93,9 @@ export default class Binding {
     } else if (Array.isArray(value)) {
       v = value.map((c, i) => {
         ctx.paths.push(`[${i}]`);
-        this.getBoundValue(c, ctx);
+        const child = this.getBoundValue(c, ctx);
         ctx.paths.pop();
+        return child;
       });
     } else if (typeof value === "object") {
       v = Object.fromEntries(

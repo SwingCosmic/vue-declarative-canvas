@@ -1,7 +1,7 @@
 import { ElementProps } from "../ElementProps";
 import { Sprite as SpriteElement } from "../../../meta/element";
 import { CSSProperties, StyleValue } from "vue";
-import { getNumberWithUnit } from "../util";
+import { getNumberWithUnit } from "@lib/math/NumberWithUnit";
 
 export function Sprite(props: ElementProps<SpriteElement>) {
   const e = props.element;

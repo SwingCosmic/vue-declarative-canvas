@@ -2,21 +2,20 @@ import { Globals, Property } from "csstype";
 import { ParamRef } from "../binding/ParamRef";
 import { ParamComputed } from "../binding/ParamComputed";
 import { StringTemplate } from "../binding/StringTemplate";
+import { ITypedObject } from "@lib/types/model";
+import { Point } from "@lib/math";
+import { AllTransformInit } from "@lib/math/transform";
+import { NumberWithUnit } from "../math/NumberWithUnit";
 
 
 export type CSSEnum<T> = Exclude<T, Globals>;
 
-export type Point2D = [x: number, y: number];
-
-export type NumberWithUnit = number | string;
-
 export type LayoutMode = "absolute" | "relative";
 
-export interface DrawableElementBase<T extends string> {
+export interface DrawableElementBase<T extends string>  {
   kind: T;
-
-  origin?: Point2D | string;
-  transform?: DOMMatrixInit;
+  origin?: Point | string;
+  transform?: AllTransformInit;
   layoutMode?: LayoutMode;
   x?: NumberWithUnit;
   y?: NumberWithUnit;
@@ -74,7 +73,7 @@ export interface Graphics extends DrawableElementBase<"graphics"> {
 
 export type DrawableElement = Sprite | Text | Graphics | Group;
 
-export type ElementInit<T extends DrawableElementBase<any>> = {
+export type ElementInit<T extends DrawableElementBase<string>> = {
   [P in keyof T]: P extends "kind" | "children"  ? T[P] 
     : T[P] | ParamRef<T[P]> | ParamComputed<T[P]> | StringTemplate
 }

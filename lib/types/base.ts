@@ -20,3 +20,8 @@ export function getNestedProperty<T extends {}, K extends string>(path: K, obj: 
   }
   return ret;
 }
+
+
+export function is<T>(obj: any, condition: boolean): obj is T {
+  return condition;
+}

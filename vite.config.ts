@@ -4,10 +4,25 @@ import { resolve } from 'path'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
+import babel from "vite-plugin-babel";
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
+    babel({
+      babelConfig: {
+        configFile: true,
+        plugins: [
+          "module:@jetblack/operator-overloading",
+        ]
+      },
+      include: [
+        "*.b.ts",
+        "*.b.tsx",
+        "*.b.js",
+        "*.b.jsx",
+      ],
+    }),
     vue(),
     vueJsx(),
   ],
@@ -17,8 +32,11 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
-      '@/lib': fileURLToPath(new URL('./lib', import.meta.url)),
+      '@lib': fileURLToPath(new URL('./lib', import.meta.url)),
     }
+  },
+  esbuild: {
+    sourcemap: false,
   },
   build: {
     lib: {
