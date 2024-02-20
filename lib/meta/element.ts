@@ -5,7 +5,7 @@ import { StringTemplate } from "../binding/StringTemplate";
 import { ITypedObject } from "@lib/types/model";
 import { Point } from "@lib/math";
 import { AllTransformInit } from "@lib/math/transform";
-import { NumberWithUnit } from "../math/NumberWithUnit";
+import { NumberOrUnitValue } from "../math/UnitValue";
 
 
 export type CSSEnum<T> = Exclude<T, Globals>;
@@ -17,8 +17,8 @@ export interface DrawableElementBase<T extends string>  {
   origin?: Point | string;
   transform?: AllTransformInit;
   layoutMode?: LayoutMode;
-  x?: NumberWithUnit;
-  y?: NumberWithUnit;
+  x?: NumberOrUnitValue;
+  y?: NumberOrUnitValue;
   zIndex?: number;
 }
 
@@ -34,8 +34,8 @@ export interface Group extends DrawableElementBase<"group"> {
 
 export interface Sprite extends DrawableElementBase<"sprite"> {
   source: string;
-  width?: NumberWithUnit;
-  height?: NumberWithUnit;
+  width?: NumberOrUnitValue;
+  height?: NumberOrUnitValue;
   fit?: CSSEnum<Property.ObjectFit>;
 }
 
@@ -44,11 +44,11 @@ export interface Text extends DrawableElementBase<"text"> {
   
   fill?: string | CanvasGradient | CanvasPattern;
   stroke?: string;
-  strokeWidth?: NumberWithUnit;
+  strokeWidth?: NumberOrUnitValue;
   lineJoin?: CanvasLineJoin;
 
   fontFamily?: string;
-  fontSize?: NumberWithUnit;
+  fontSize?: NumberOrUnitValue;
   fontStyle?: CSSEnum<Property.FontStyle>;
   fontWeight?: CSSEnum<Property.FontWeight>;
   fontVariant?: CanvasFontVariantCaps;
@@ -58,7 +58,7 @@ export interface Text extends DrawableElementBase<"text"> {
   letterSpacing?: number;
 
   padding?: number;
-  lineHeight?: NumberWithUnit;
+  lineHeight?: NumberOrUnitValue;
 
 }
 
@@ -68,8 +68,8 @@ export interface Graphics extends DrawableElementBase<"graphics"> {
   fill?: string;
   stroke?: string;
 
-  width?: NumberWithUnit;
-  height?: NumberWithUnit;
+  width?: NumberOrUnitValue;
+  height?: NumberOrUnitValue;
 }
 
 export type DrawableElement = Sprite | Text | Graphics | Group;

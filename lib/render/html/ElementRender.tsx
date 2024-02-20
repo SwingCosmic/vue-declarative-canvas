@@ -8,7 +8,7 @@ import { Group } from "./elements/Group";
 import { Text } from "./elements/Text";
 import { Sprite } from "./elements/Sprite";
 import { Graphics } from "./elements/Graphics";
-import { ITransform, Transform, TransformGroup, createTransform } from "@lib/math/transform";
+import { ITransform, createTransform } from "@lib/math/transform";
 
 
 export default defineComponent({

@@ -1,10 +1,9 @@
-import { is } from "@lib/types/base";
 import { ITypedObject } from "@lib/types/model";
-import { AffineTransform2DInit, Matrix3x2Init, Matrix3x2Tuple, Matrix4x4Init, Matrix4x4Tuple, TransformBase } from "./Transform";
+import { Matrix2D, Matrix3D, Matrix3x2Init, Matrix3x2Tuple, Matrix4x4Init, Matrix4x4Tuple, TransformBase } from "./Transform";
 
 
 
-export class MatrixTransform extends TransformBase<"matrix"> implements Matrix4x4Init {
+export class MatrixTransform extends TransformBase<"matrix" | "matrix3d"> implements Matrix4x4Init {
 
   get m11() { return this._matrix.m11; }
   set m11(v: number) { this._matrix.m11 = v; }
@@ -52,12 +51,9 @@ export class MatrixTransform extends TransformBase<"matrix"> implements Matrix4x
     return new MatrixTransform(1, 0, 0, 1, 0, 0);
   }
 
-  static create(matrix: AffineTransform2DInit | Matrix3x2Init | Matrix4x4Init | DOMMatrixReadOnly | string) {
+  static create(matrix: Matrix2D | Matrix3D | DOMMatrixReadOnly) {
     let m = matrix as DOMMatrixReadOnly;
-    if (typeof matrix === "string") {
-      const transform = CSSStyleValue.parse("transform", matrix) as CSSTransformValue;
-      m = transform.toMatrix();
-    } else if (!(matrix instanceof DOMMatrixReadOnly)) {
+    if (!(matrix instanceof DOMMatrixReadOnly)) {
       m = DOMMatrix.fromMatrix(matrix);
     }
 
@@ -80,8 +76,8 @@ export class MatrixTransform extends TransformBase<"matrix"> implements Matrix4x
     if (args.length != 6 && args.length != 16) {
       throw new RangeError("There must be 6 or 16 input values for Matrix.");
     }
+    super(args.length === 6 ? "matrix" : "matrix3d");
     
-    super("matrix");
     this._matrix = DOMMatrix.fromMatrix({});
     if (args.length === 6) {
       this.m11 = args[0];  this.m12 = args[1];  this.m13 = 0;        this.m14 = 0;

@@ -1,6 +1,6 @@
 import { CSSProperties } from "vue";
 import { DrawableElement } from "../../meta/element";
-import { getNumberWithUnit } from "@lib/math/NumberWithUnit";
+import { getUnitValue } from "@lib/math/UnitValue";
 import { Vector2 } from "@lib/math";
 
 export function getLayout(e: DrawableElement) {
@@ -10,8 +10,8 @@ export function getLayout(e: DrawableElement) {
   }
 
   const attrs: CSSProperties = {
-    left: getNumberWithUnit(e.x),
-    top: getNumberWithUnit(e.y),
+    left: getUnitValue(e.x),
+    top: getUnitValue(e.y),
     transformOrigin: typeof origin === "object" ? Vector2.fromJSON(origin).toString() : origin,
     zIndex: e.zIndex,
   };
