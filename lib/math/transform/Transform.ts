@@ -48,9 +48,9 @@ export interface RotateTransformInit extends ITypedObject<"rotate"> {
 
 export interface Rotate3DTransformInit extends ITypedObject<"rotate3d"> {
   angle: NumberOrUnitValue;
-  x: NumberOrUnitValue;
-  y: NumberOrUnitValue;
-  z: NumberOrUnitValue;
+  x: number;
+  y: number;
+  z: number;
 }
 
 export interface ScaleTransformInit extends ITypedObject<"scale"> {

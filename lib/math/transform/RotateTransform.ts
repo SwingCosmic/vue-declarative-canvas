@@ -41,13 +41,11 @@ export class Rotate3DTransform extends TransformBase<"rotate3d">  {
     return new Rotate3DTransform(rotate.x, rotate.y, rotate.z, rotate.angle);
   }
 
-  constructor(x: NumberOrUnitValue, y: NumberOrUnitValue, z: NumberOrUnitValue, angle: NumberOrUnitValue,) {
+  constructor(x: number, y: number, z: number, angle: NumberOrUnitValue,) {
     super("rotate3d");
-
-    const cssNumberArgs = [x, y, z, angle].map(
-      a => getCSSNumericValue(a, "deg", true)!
-    ) as [CSSNumericValue, CSSNumericValue, CSSNumericValue, CSSNumericValue];
-    this._rotate = new CSSRotate(...cssNumberArgs);
+    this._rotate = new CSSRotate(
+      x, y, z, getCSSNumericValue(angle, "deg", true)!
+    );
   }
 
   toCSSTransformComponent() {
