@@ -19,6 +19,7 @@ export interface DrawableElementBase<T extends string>  {
   layoutMode?: LayoutMode;
   x?: NumberWithUnit;
   y?: NumberWithUnit;
+  zIndex?: number;
 }
 
 export interface Group extends DrawableElementBase<"group"> {

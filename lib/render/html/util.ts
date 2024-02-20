@@ -1,24 +1,19 @@
-import { StyleValue } from "vue";
+import { CSSProperties } from "vue";
 import { DrawableElement } from "../../meta/element";
 import { getNumberWithUnit } from "@lib/math/NumberWithUnit";
-import { transform } from "@lib/math/transform";
 import { Vector2 } from "@lib/math";
 
-export function getTransform(e: DrawableElement) {
-  let transformCss = "";
-  if (e.transform) {
-    transformCss = transform(e.transform).toString();
-  }
+export function getLayout(e: DrawableElement) {
   let origin = e.origin;
   if (Array.isArray(origin)) {
     origin = origin.join(" ");
   }
 
-  const attrs: StyleValue = {
+  const attrs: CSSProperties = {
     left: getNumberWithUnit(e.x),
     top: getNumberWithUnit(e.y),
-    transform: transformCss,
     transformOrigin: typeof origin === "object" ? Vector2.fromJSON(origin).toString() : origin,
+    zIndex: e.zIndex,
   };
 
   let mode = e.layoutMode;

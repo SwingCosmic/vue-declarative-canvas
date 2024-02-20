@@ -1,13 +1,14 @@
 import { CSSProperties, Ref, ref, defineComponent, inject, PropType, watchEffect } from "vue";
 import { DrawableElement, DrawableElementInit } from "../../meta/element";
 import Binding from "../../binding/Binding";
-import { getTransform } from "./util";
+import { getLayout } from "./util";
 import { Dictionary } from "field-metadata/lib/types/base";
 
 import { Group } from "./elements/Group";
 import { Text } from "./elements/Text";
 import { Sprite } from "./elements/Sprite";
 import { Graphics } from "./elements/Graphics";
+import { ITransform, Transform, TransformGroup, createTransform } from "@lib/math/transform";
 
 
 export default defineComponent({
@@ -23,22 +24,31 @@ export default defineComponent({
 
     const binding = new Binding(params);
     const boundElement: Ref<DrawableElement> = ref<any>({});
+    const transform: Ref<ITransform | null> = ref(null);
     watchEffect(() => {
       boundElement.value = binding.getBoundElement(props.element);
+      if (boundElement.value.transform) {
+        transform.value = createTransform(boundElement.value.transform);
+      }     
     });
 
 
     
     return {
-      boundElement
+      boundElement,
+      transform,
     };
   },
   render() {
     const e = this.boundElement;
 
     const attrs = {
-      ...getTransform(e),
+      ...getLayout(e),
+      
     };
+    if (this.transform) {
+      attrs.transform = this.transform.toCSSValue();
+    }
   
     switch (e.kind) {
       case "group":

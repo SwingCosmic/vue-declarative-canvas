@@ -2,7 +2,7 @@ import { MatrixTransform } from "./MatrixTransform";
 import { RotateTransform } from "./RotateTransform";
 import { ScaleTransform } from "./ScaleTransform";
 import { SkewTransform } from "./SkewTransform";
-import { AllTransformInit, Transform, TransformBase, TransformInit } from "./Transform";
+import { AllTransformInit, ITransform, Transform, TransformInit } from "./Transform";
 import { TransformGroup } from "./TransformGroup";
 
 
@@ -23,7 +23,7 @@ function parseTransform(transform: TransformInit): Transform {
   }
 }
 
-export function transform(transform: AllTransformInit): Transform | TransformGroup {
+export function createTransform(transform: AllTransformInit): ITransform {
   if (Array.isArray(transform)) {
     return new TransformGroup(transform.map(t => parseTransform(t)));
   }
@@ -31,3 +31,4 @@ export function transform(transform: AllTransformInit): Transform | TransformGro
 }
 
 export * from "./Transform";
+export * from "./TransformGroup";

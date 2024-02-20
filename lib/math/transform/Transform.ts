@@ -74,17 +74,25 @@ export type Transform =
   | SkewTransform
 ;
 
-export abstract class TransformBase<T extends string> implements ITypedObject<T> {
+export interface ITransform {
+  /**
+   * 转换为CSS transform值
+   */
+  toCSSValue(): string;
+  /**
+   * 转换为底层的变换矩阵
+   */
+  toMatrix(): DOMMatrix;
+}
+
+export abstract class TransformBase<T extends string> implements ITransform, ITypedObject<T> {
   readonly kind: T;
 
   constructor(kind: T) {
     this.kind = kind;
   }
 
-  /**
-   * 转换为CSS transform
-   */
-  toString() {
+  toCSSValue() {
     return this.toCSSTransformComponent().toString();
   }
 
