@@ -1,3 +1,9 @@
+export type HexCharUpper = "A" | "B" | "C" | "D" | "E" | "F";
+export type HexCharLower = Lowercase<HexCharUpper>;
+export type HexChar = HexCharUpper | HexCharLower;
+
+
+
 /** 将形如`a.b.c`这样的属性路径转成对应嵌套对象里面的属性类型 */
 export type GetNestedPropertyType<T, K extends string> = K extends keyof T
   ? T[K]

@@ -22,8 +22,8 @@ export class SkewTransform extends TransformBase<"skew">  {
   constructor(angleX: NumberOrUnitValue, angleY: NumberOrUnitValue) {
     super("skew");
     this._skew = new CSSSkew(
-      CSSNumericValue.parse(getUnitValue(angleX, "deg")!), 
-      CSSNumericValue.parse(getUnitValue(angleY, "deg")!), 
+      getCSSNumericValue(angleX, "deg", true)!, 
+      getCSSNumericValue(angleY, "deg", true)!, 
     );
   }
 

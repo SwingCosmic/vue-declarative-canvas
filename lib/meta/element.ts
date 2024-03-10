@@ -1,4 +1,4 @@
-import { Globals, Property } from "csstype";
+import { Property, DataType } from "csstype";
 import { ParamRef } from "../binding/ParamRef";
 import { ParamComputed } from "../binding/ParamComputed";
 import { StringTemplate } from "../binding/StringTemplate";
@@ -6,9 +6,10 @@ import { ITypedObject } from "@lib/types/model";
 import { Point } from "@lib/math";
 import { AllTransformInit } from "@lib/math/transform";
 import { NumberOrUnitValue } from "../math/UnitValue";
+import { Shape } from "./shape";
+import { IFillable, ISizeable } from "./base";
+import { CSSEnum } from "./base";
 
-
-export type CSSEnum<T> = Exclude<T, Globals>;
 
 export type LayoutMode = "absolute" | "relative";
 
@@ -32,25 +33,19 @@ export interface Group extends DrawableElementBase<"group"> {
 }
 
 
-export interface Sprite extends DrawableElementBase<"sprite"> {
+export interface Sprite extends DrawableElementBase<"sprite">, ISizeable {
   source: string;
-  width?: NumberOrUnitValue;
-  height?: NumberOrUnitValue;
+
   fit?: CSSEnum<Property.ObjectFit>;
 }
 
-export interface Text extends DrawableElementBase<"text"> {
+export interface Text extends DrawableElementBase<"text">, IFillable {
   text: string;
   
-  fill?: string | CanvasGradient | CanvasPattern;
-  stroke?: string;
-  strokeWidth?: NumberOrUnitValue;
-  lineJoin?: CanvasLineJoin;
-
   fontFamily?: string;
   fontSize?: NumberOrUnitValue;
   fontStyle?: CSSEnum<Property.FontStyle>;
-  fontWeight?: CSSEnum<Property.FontWeight>;
+  fontWeight?: DataType.FontWeightAbsolute;
   fontVariant?: CanvasFontVariantCaps;
   align?: CanvasTextAlign;
   textBaseline?: CanvasTextBaseline;
@@ -62,14 +57,9 @@ export interface Text extends DrawableElementBase<"text"> {
 
 }
 
-export interface Graphics extends DrawableElementBase<"graphics"> {
-  // geometry: Geometry;
-  path: string;
-  fill?: string;
-  stroke?: string;
+export interface Graphics extends DrawableElementBase<"graphics">, IFillable, ISizeable {
+  shape: Shape;
 
-  width?: NumberOrUnitValue;
-  height?: NumberOrUnitValue;
 }
 
 export type DrawableElement = Sprite | Text | Graphics | Group;

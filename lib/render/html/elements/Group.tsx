@@ -21,7 +21,9 @@ export function Group(props: ElementProps<GroupElement>) {
 
   return (
     <div style={style}>
-      {props.element.children.map(c => <ElementRender element={c} />)}
+      {props.element.children.map((c, i) => (
+        <ElementRender key={i} element={c} />
+      ))}
     </div>
   );
 }
