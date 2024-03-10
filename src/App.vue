@@ -112,21 +112,30 @@ const template = ref<CanvasTemplate<Params>>({
         {
           kind: "graphics",
           layoutMode: "absolute",
-          path: {
-            "@refs": [
-              { 
-                "@name": "$rx",
-                "@ref": "radiusX" 
-              },
-              { 
-                "@name": "$ry",
-                "@ref": "radiusY" 
-              },
-            ],
-            "@str": "M0,${$ry} "+
-              "a${$rx},${$ry} 0 1 0 ${$rx * 2},0 " +
-              "a${$rx},${$ry} 0 1 0 ${-$rx * 2},0 "
+          shape: {
+            kind: "ellipse",
+            center: {
+              x: { "@ref": "radiusX" } as any,
+              y: { "@ref": "radiusY" } as any,
+            },
+            radiusX: { "@ref": "radiusX" } as any,
+            radiusY: { "@ref": "radiusY" } as any,
           },
+          // path: {
+          //   "@refs": [
+          //     { 
+          //       "@name": "$rx",
+          //       "@ref": "radiusX" 
+          //     },
+          //     { 
+          //       "@name": "$ry",
+          //       "@ref": "radiusY" 
+          //     },
+          //   ],
+          //   "@str": "M0,${$ry} "+
+          //     "a${$rx},${$ry} 0 1 0 ${$rx * 2},0 " +
+          //     "a${$rx},${$ry} 0 1 0 ${-$rx * 2},0 "
+          // },
           width: {
             "@refs": [
               { 

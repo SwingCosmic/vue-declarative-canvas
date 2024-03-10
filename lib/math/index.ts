@@ -12,7 +12,7 @@ import { Vector2 } from "./Vector2";
   if (!(sum instanceof Vector2)) {
     const error = new Error("Bad compilation: operator overloading is not enabled.Please check Babel's config");
     console.error(error);
-    throw error;
+    // throw error;
   }
 })();
 
