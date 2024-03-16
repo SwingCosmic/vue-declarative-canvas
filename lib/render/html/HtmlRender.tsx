@@ -1,4 +1,4 @@
-import { PropType, Ref, computed, defineComponent, provide, ref, toRef, watchEffect } from "vue";
+import { PropType, Ref, computed, defineComponent, provide, ref, shallowRef, toRef, watchEffect } from "vue";
 import { CanvasTemplate } from "../../meta/template";
 import "./index.scss";
 import { useCssFontLoader } from "./useCssFontLoader";
@@ -6,6 +6,8 @@ import { useCurrentElement } from '@vueuse/core';
 import { Dictionary } from "@lovekicher/iterable-chain";
 import ElementRender from "./ElementRender";
 import _ from "lodash";
+import { renderToImage } from "./util";
+import { RenderInstance } from "@lib/index";
 
 interface Props<T extends {}> {
   template: CanvasTemplate<T>;
@@ -13,8 +15,24 @@ interface Props<T extends {}> {
   preset?: string | null;
 }
 
-export default defineComponent<Props<Record<string, any>>>(
-  (props, ctx) => {
+export default defineComponent({
+  name: "HtmlRender",
+  props: {
+    template: {
+      type: Object as PropType<CanvasTemplate<Dictionary<any>>>,
+      required: true,
+    },
+    params: {
+      type: Object,
+      default: () => ({})
+    },
+    preset: {
+      type: String,
+    },
+  },
+  emits: ["update:params"],
+  setup(props: Props<Dictionary<any>>, ctx) {
+    const root = shallowRef<HTMLElement>(null!);
 
     const realParams = computed({
       get() {
@@ -49,34 +67,24 @@ export default defineComponent<Props<Record<string, any>>>(
 
     provide("params", paramsWithConfig);
 
-    return () => {
-      const elements = props.template.elements
-        .map(e => (
-          <ElementRender element={e} />
-        ));
-
-      return <div class="html-render">
-        <div class="canvas-root">
-          {elements}
+    return {
+      exportToImage(option) {
+        return renderToImage(root.value, option);
+      },
+      root,
+    } as RenderInstance;
+  },
+  render() {
+    return (
+      <div class="html-render">
+        <div class="canvas-wrapper" ref="root">
+          <div class="canvas-root" >
+            {this.template.elements.map(e => (
+              <ElementRender element={e} />
+            ))}
+          </div>
         </div>
-      </div>;
-    }
-  }, 
-  {
-    name: "HtmlRender",
-    props: {
-      template: {
-        type: Object as PropType<CanvasTemplate<Dictionary<any>>>,
-        required: true,
-      },
-      params: {
-        type: Object,
-        default: () => ({})
-      },
-      preset: {
-        type: String,
-      },
-    },
-    emits: ["update:params"],
+      </div>
+    );
   }
-)
+});

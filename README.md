@@ -28,7 +28,7 @@
 
 ```html
 <template>
-   <HtmlRender
+   <HtmlRender ref="render"
       v-model:params="params"
       :template="template" 
       :preset="preset">
@@ -37,10 +37,8 @@
 </template>
 
 <script setup lang="ts">
-import HtmlRender from 'vue-declarative-canvas';
+import { HtmlRender, CanvasTemplate, RenderInstance } from 'vue-declarative-canvas';
 import 'vue-declarative-canvas/dist/style.css';
-
-import { CanvasTemplate } from 'vue-declarative-canvas/dist/meta/template';
 
 interface Params {
    // 你自己的参数类型
@@ -52,6 +50,16 @@ const params = ref<Params>({});
 const template = ref<CanvasTemplate<Params>>({
    // 编写模板
 });
+
+const render = shallowRef<RenderInstance>(null!);
+
+
+async function exportImage() {
+   const file = await render.value.exportToImage({
+      imageFormat: "image/png"
+   });
+   // 下载文件或者展示在img上
+}
 </script>
 
 ```

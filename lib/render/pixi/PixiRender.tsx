@@ -1,6 +1,5 @@
 import { PropType, Ref, computed, defineComponent, ref, toRef, watchEffect } from "vue";
 import { CanvasTemplate } from "../../meta/template";
-import "./index.scss";
 import { useCurrentElement } from '@vueuse/core';
 import { Dictionary } from "@lovekicher/iterable-chain";
 
