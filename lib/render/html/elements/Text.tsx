@@ -19,6 +19,8 @@ export function Text(props: ElementProps<TextElement>) {
     "text-align": e.align,
     "line-height": e.lineHeight,
 
+    "padding": getUnitValue(e.padding),
+
   };
   
   return (

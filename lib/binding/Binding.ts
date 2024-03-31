@@ -97,7 +97,7 @@ export default class Binding {
         ctx.paths.pop();
         return child;
       });
-    } else if (typeof value === "object") {
+    } else if (typeof value === "object" && value != null) {
       v = Object.fromEntries(
         Object.entries(value)
           .map(p => {

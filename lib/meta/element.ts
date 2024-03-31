@@ -7,7 +7,7 @@ import { Point } from "@lib/math";
 import { AllTransformInit } from "@lib/math/transform";
 import { NumberOrUnitValue } from "../math/UnitValue";
 import { Shape } from "./shape";
-import { IFillable, ISizeable } from "./base";
+import { Color, IFillable, ISizeable } from "./base";
 import { CSSEnum } from "./base";
 
 
@@ -30,6 +30,8 @@ export interface Group extends DrawableElementBase<"group"> {
   direction?: CSSEnum<Property.FlexDirection>;
   justify?: CSSEnum<Property.JustifyContent>;
   align?: CSSEnum<Property.AlignItems>;
+  borderRadius?: number;
+  background?: Color;
 }
 
 

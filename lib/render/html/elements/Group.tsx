@@ -3,11 +3,15 @@ import { ElementProps } from "../ElementProps";
 // vue-tsc bug 'Duplicate declaration "Group"'
 import { Group as GroupElement } from "../../../meta/element";
 import { CSSProperties } from "vue";
+import { getUnitValue } from "@lib/math/UnitValue";
 
 export function Group(props: ElementProps<GroupElement>) {
   const e = props.element;
-  const style: CSSProperties = {};
-  style["position"] = "relative";
+  const style: CSSProperties = {
+    "position": "relative",
+    "border-radius": getUnitValue(e.borderRadius),
+    "background-color": e.background,
+  };
   
   let mode = e.containerMode || "absolute";
   if (mode == "flex") {
