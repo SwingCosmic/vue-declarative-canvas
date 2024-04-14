@@ -19,6 +19,8 @@ export interface TemplatePreset<T> {
 export interface CanvasTemplate<T extends {}, C extends {} = Dictionary<any>> {
   key: string;
   name: string;
+  description?: string;
+  previewImage?: string;
   elements: DrawableElementInit[];
   meta: TemplateMeta<T>;
   presets: TemplatePreset<T>[];
