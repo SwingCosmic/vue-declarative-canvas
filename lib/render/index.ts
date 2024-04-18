@@ -4,6 +4,7 @@ export interface ExportImageOption {
   height?: number;
   backgroundColor?: Color;
   imageFormat?: string;
+  font?: string;
 }
 
 

@@ -3,8 +3,10 @@ import { Ref, ShallowRef, onBeforeUnmount, onMounted, ref, watch } from "vue";
 import { FontInfo } from "../../meta/resource";
 
 
-export function useCssFontLoader(root: ShallowRef<HTMLElement>, fonts: Ref<FontInfo[]>) {
+export function useCssFontLoader(root: ShallowRef<HTMLElement>, fonts: Ref<FontInfo[]>, autoLoad = true) {
 
+  const cssText = ref("");
+  
   function load() {
     let css = fonts.value.map(f => {
       let src = `url('${f.url}')`;
@@ -35,6 +37,7 @@ export function useCssFontLoader(root: ShallowRef<HTMLElement>, fonts: Ref<FontI
       if (!root.value) {
         return;
       }
+      cssText.value = css;
       let style: HTMLStyleElement | null = root.value.querySelector("style.__html-render--font__");
       if (!style) {
         style = document.createElement("style");
@@ -52,12 +55,15 @@ export function useCssFontLoader(root: ShallowRef<HTMLElement>, fonts: Ref<FontI
   }
 
   watch(fonts, () => load());
-  onMounted(() => load());
-  onBeforeUnmount(() => unload())
+  if (autoLoad) {
+    onMounted(() => load());
+    onBeforeUnmount(() => unload())  ;  
+  }
 
   return {
     load,
     unload,
+    cssText: cssText as Readonly<Ref<string>>,
   };
 }
 

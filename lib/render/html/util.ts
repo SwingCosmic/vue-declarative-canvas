@@ -87,9 +87,13 @@ function getMaxRect(root: HTMLElement) {
 }
 
 export async function renderToImage(root: HTMLElement, option: ExportImageOption = {}) {
-  let opt: Options = Object.assign({
-    backgroundColor: "transparent",
-  }, option);
+  let opt: Options = {};
+  opt.backgroundColor = option.backgroundColor || "transparent";
+  if (option.font) {
+    opt.font = {
+      cssText: option.font
+    }
+  }
 
   opt.type = option.imageFormat;
 
