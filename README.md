@@ -81,6 +81,7 @@ async function exportImage() {
 ### 重要的概念和类型
 
 1. 变换
+
 每个元素都拥有`transform`属性，可以为元素及其子元素提供2D和3D变换
 
 提供Skew、Translate、Scale3D、Rotate3D、Perspective等封装的基本变换，也可以使用上述变换的组合，或者直接使用MatrixTransform提供3x2或者4x4变换矩阵
@@ -90,6 +91,7 @@ async function exportImage() {
 导出图片时会自动计算画布边界，超出可视区域的部分也会被处理。大量使用变换使元素变形并超出容器（特别是在-x轴方向超出），可能会造成画布裁剪错误，或者带来性能问题。
 
 2. 带单位数值
+
 不少属性的类型是`NumberOrUnitValue<U>`，即可以是数值，或者后跟CSS单位的字符串。此类属性可通过不同的单位提供不同方式的数值，实现和CSS类似的便捷数值计算。
 
 对于数值来说，单位采用的是该类物理量的默认单位。例如长度的单位默认为`px`，角度的单位默认为`deg`，等等。

@@ -52,7 +52,15 @@ export function getLayout(e: DrawableElement) {
  */
 function getMaxRect(root: HTMLElement) {
   // 获取所有子元素
-  let children = root.querySelectorAll('*');
+  let children = Array.from(root.querySelectorAll("*")).filter((child) => {
+    if (
+      child.tagName.toLowerCase() == "style" ||
+      child.tagName.toLowerCase() == "script"
+    ) {
+      return false;
+    }
+    return true;
+  });
 
   // 初始化父元素范围
   let parentRect = root.getBoundingClientRect();
