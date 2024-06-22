@@ -1,7 +1,8 @@
-import { PropType, Ref, computed, defineComponent, provide, ref, shallowRef, toRef, watchEffect } from "vue";
+import { PropType, Ref, computed, defineComponent, provide, reactive, ref, shallowRef, toRef, watchEffect } from "vue";
 import { CanvasTemplate } from "../../meta/template";
 import "./index.scss";
 import { useCssFontLoader } from "./useCssFontLoader";
+import { fontsToEmbeddedCss } from "@lib/util/font";
 import { useCurrentElement } from '@vueuse/core';
 import { Dictionary } from "@lovekicher/iterable-chain";
 import ElementRender from "./ElementRender";
@@ -54,11 +55,18 @@ export default defineComponent({
       realParams.value = _.cloneDeep(params);
     });
 
-    const paramsWithConfig = computed<Dictionary<any>>(() => {
-      return {
+    // const paramsWithConfig = computed<Dictionary<any>>(() => {
+    //   return {
+    //     ...realParams.value,
+    //     $config: props.template.config || {},
+    //   };
+    // });
+    const paramsWithConfig = ref<Dictionary<any>>({});
+    watchEffect(() => {
+      paramsWithConfig.value = {
         ...realParams.value,
         $config: props.template.config || {},
-      };
+      }
     });
     
     // const el: Ref<HTMLElement> = useCurrentElement() as any;
@@ -68,7 +76,9 @@ export default defineComponent({
     provide("params", paramsWithConfig);
 
     return {
-      exportToImage(option) {
+      async exportToImage(option = {}) {
+        option.font ||= "";
+        option.font += "\n" + await fontsToEmbeddedCss(fonts.value);
         return renderToImage(root.value, option);
       },
       root,

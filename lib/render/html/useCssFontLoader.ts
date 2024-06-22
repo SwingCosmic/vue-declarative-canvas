@@ -1,50 +1,31 @@
 import { Property } from "csstype";
 import { Ref, ShallowRef, onBeforeUnmount, onMounted, ref, watch } from "vue";
 import { FontInfo } from "../../meta/resource";
+import { fontsToCss } from "@lib/util/font";
 
-
-export function useCssFontLoader(root: ShallowRef<HTMLElement>, fonts: Ref<FontInfo[]>, autoLoad = true) {
-
+export function useCssFontLoader(
+  root: ShallowRef<HTMLElement>,
+  fonts: Ref<FontInfo[]>,
+  autoLoad = true
+) {
   const cssText = ref("");
-  
+
   function load() {
-    let css = fonts.value.map(f => {
-      let src = `url('${f.url}')`;
-      if (f.format) {
-        src += ` format('${f.format}')`;
-      }
+    let css = fontsToCss(fonts.value);
 
-      let unicodeRange = "";
-      if (f.unicodeRanges && f.unicodeRanges.length > 0) {
-        unicodeRange = `unicode-range: ${f.unicodeRanges.join(", ")};`
-      }
-
-      let fontWeight = "";
-      if (f.fontWeight) {
-        fontWeight = `font-weight: ${f.fontWeight};`
-      }
-      
-      return `
-@font-face {
-  font-family: ${f.fontFamily};
-  src: ${src};
-  ${fontWeight}
-  ${unicodeRange}
-}
-`;
-      }).join("\n");
-
-      if (!root.value) {
-        return;
-      }
-      cssText.value = css;
-      let style: HTMLStyleElement | null = root.value.querySelector("style.__html-render--font__");
-      if (!style) {
-        style = document.createElement("style");
-        style.className = "__html-render--font__";
-        root.value.appendChild(style);
-      }
-      style.innerHTML = css;
+    if (!root.value) {
+      return;
+    }
+    cssText.value = css;
+    let style: HTMLStyleElement | null = root.value.querySelector(
+      "style.__html-render--font__"
+    );
+    if (!style) {
+      style = document.createElement("style");
+      style.className = "__html-render--font__";
+      root.value.appendChild(style);
+    }
+    style.innerHTML = css;
   }
 
   function unload() {
@@ -57,7 +38,7 @@ export function useCssFontLoader(root: ShallowRef<HTMLElement>, fonts: Ref<FontI
   watch(fonts, () => load());
   if (autoLoad) {
     onMounted(() => load());
-    onBeforeUnmount(() => unload())  ;  
+    onBeforeUnmount(() => unload());
   }
 
   return {
@@ -66,4 +47,3 @@ export function useCssFontLoader(root: ShallowRef<HTMLElement>, fonts: Ref<FontI
     cssText: cssText as Readonly<Ref<string>>,
   };
 }
-
