@@ -161,7 +161,7 @@ export async function renderToImage(
   canvas.width = opt.width;
   canvas.height = opt.height;
   const ctx = canvas.getContext("2d")!;
-  ctx.fillStyle = "transparent";
+  ctx.fillStyle = opt.backgroundColor || "transparent";
   ctx.fillRect(0, 0, opt.width, opt.height);
   ctx.drawImage(img, 0, 0, opt.width, opt.height);
 
