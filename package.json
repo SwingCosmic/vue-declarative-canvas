@@ -1,7 +1,7 @@
 {
   "name": "vue-declarative-canvas",
   "private": false,
-  "version": "0.1.0",
+  "version": "0.6.0",
   "type": "module",
   "main": "dist/vue-declarative-canvas.umd.cjs",
   "module": "dist/vue-declarative-canvas.js",

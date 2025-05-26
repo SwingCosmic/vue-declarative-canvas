@@ -5,7 +5,11 @@ import { FontInfo } from "..";
 export function fontsToCss(fonts: FontInfo[]) {
   return fonts
     .map((f) => {
-      let src = `url('${f.url}')`;
+      let url = f.url;
+      if (url.startsWith('/')) {
+        url = document.baseURI + url;
+      }
+      let src = `url('${url}')`;
       if (f.format) {
         src += ` format('${f.format}')`;
       }

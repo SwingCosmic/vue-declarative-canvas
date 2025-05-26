@@ -17,10 +17,8 @@ export default defineConfig({
         ]
       },
       include: [
-        "*.b.ts",
-        "*.b.tsx",
-        "*.b.js",
-        "*.b.jsx",
+        "*.ts",
+        "*.tsx",
       ],
     }),
     vue(),
@@ -51,13 +49,14 @@ export default defineConfig({
     copyPublicDir: false,
     rollupOptions: {
       // 确保外部化处理那些你不想打包进库的依赖
-      external: ['vue', 'lodash', '@babel/standalone'],
+      external: ['vue', 'lodash', '@babel/standalone', 'modern-screenshot'],
       output: {
         // 在 UMD 构建模式下为这些外部化的依赖提供一个全局变量
         globals: {
           vue: 'Vue',
           lodash: '_',
           '@babel/standalone': 'Babel',
+          'modern-screenshot': 'modernScreenshot',
         },
       },
     },
